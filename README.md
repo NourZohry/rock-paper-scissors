@@ -1,2 +1,2 @@
 # rock-paper-scissors
-Small RPS project to practice DOM manipulation.
+Small Rock Paper Scissors project for The Odin Project to practice DOM manipulation.
