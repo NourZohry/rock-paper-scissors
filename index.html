@@ -3,17 +3,24 @@
 
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title>Rock, Paper, Scissors!</title>
   <meta name="author" content="">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <link href="style.css" rel="stylesheet">
 </head>
 
 <body>
-
-  <p>Good luck!</p>
+  <h1 class="title">Rock, Paper, Scissors!</h1>
+  <div class="rps-choices">
+    <img class="rps-choice" alt="rock" data-choice="Rock" src="images/rock.jpg">
+    <img class="rps-choice" alt="paper" data-choice="Paper" src="images/paper.webp">
+    <img class="rps-choice" alt="scissors" data-choice="Scissors" src="images/scissors.jpg">
+  </div>
+  <div class="rps-result" id="rps-result">
+    <p id="rps-round-result-text"></p>
+    <p id="rps-game-result-text"></p>
+  </div>
 
   <script src="script.js"></script>
 </body>

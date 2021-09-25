@@ -1,6 +1,10 @@
+function toggleChoicesVisibility() {
+    document.getElementsByClassName("rps-choices")[0].classList.toggle("hidden");
+}
+
 function computerPlay() {
     // Generate either 0, 1, or 2
-    switch(Math.floor(Math.random()*3)) {
+    switch (Math.floor(Math.random() * 3)) {
         case 0: return "Rock";
         case 1: return "Paper";
         case 2: return "Scissors";
@@ -9,60 +13,96 @@ function computerPlay() {
 }
 
 function playRound(playerSelection, computerSelection) {
-    // Change player choice to capitalized. ex "roCK" to "Rock"
-    playerSelection = playerSelection.toLowerCase();
-    playerSelectionFirstLetter = playerSelection.charAt(0).toUpperCase();
-    playerSelection = playerSelection.slice(1);
-    playerSelection = playerSelectionFirstLetter + playerSelection;
-    // Check for options excluding Rock Paper Scissors
-    if (playerSelection !== "Rock" && 
-        playerSelection !== "Paper" && 
-        playerSelection !== "Scissors") {
-        console.log(`Invalid input :( Make sure to choose one of \"Rock\" \"Paper\" \"Scissors\"`);
-        return "invalid";
-    }
-    // Consider win/loss/tie cases
-    else if (playerSelection === computerSelection) {
-        console.log(`It's a tie! You both used ${playerSelection}`);
-        return "tie";
+    let roundResultsText = document.getElementById("rps-round-result-text");
+    if (playerSelection === computerSelection) {
+        roundResultsText.className = "tie-color";
+        roundResultsText.innerHTML = ("It's a tie!<br>You both used " + playerSelection);
+        game("tie");
     }
     else if (playerSelection === "Rock" && computerSelection === "Paper" ||
-             playerSelection === "Paper" && computerSelection === "Scissors" ||
-             playerSelection === "Scissors" && computerSelection === "Rock") {
-                console.log(`You lose! ${computerSelection} beats ${playerSelection}`);
-                return "loss";
-             }
+        playerSelection === "Paper" && computerSelection === "Scissors" ||
+        playerSelection === "Scissors" && computerSelection === "Rock") {
+        roundResultsText.className = "loss-color";
+        roundResultsText.innerHTML = ("You lose!<br>" + computerSelection + " beats " + playerSelection);
+        game("loss");
+    }
     else {
-        console.log(`You win! ${playerSelection} beats ${computerSelection}`);
-        return "win";
+        roundResultsText.className = "win-color";
+        roundResultsText.innerHTML = ("You win!<br>" + playerSelection + " beats " + computerSelection);
+        game("win");
     }
 }
 
-function game() {
-    let winCount = 0;
-    let lossCount = 0;
-    let tieCount = 0;
-    // Loop for 5 rounds. Prompt user for option, loop if invalid option. Note that a tie counts as a round.
-    for (let i=0; i < 5; i++) {
-        console.log(`Round ${i+1}!`);
-        const computerSelection = computerPlay();
-        do {
-            const playerSelection = window.prompt('Rock, Paper, or Scissors?');
-            playResult = playRound(playerSelection, computerPlay());
-        } while (playResult === "invalid");
-        // Add to counters
-        switch (playResult) {
-            case "win": winCount++; break;
-            case "loss": lossCount++; break;
-            case "tie": tieCount++; break;
-            default: return "Error in game() function.";
-        }
+function game(roundResult) {
+    switch (roundResult) {
+        case "win": winCount++; break;
+        case "loss": lossCount++; break;
+        case "tie": tieCount++; break;
+        default: return "Error in game() function.";
     }
+    if (winCount != 5 && lossCount != 5) {
+        return;
+    }
+    gameResultsText.style.fontSize = "40px";
+    if (winCount == 5) {
+        gameResultsText.textContent = (`You won against the computer!!!`);
+        gameResultsText.style.fontWeight = "bold";
+        gameResultsText.className = "win-color";
+    }
+    else if (lossCount == 5) {
+        gameResultsText.textContent = (`You lost... better luck next time~`);
+        gameResultsText.className = "loss-color";
+    }
+
+    // if (playAgainButton.classList.contains("hidden")) {
+    //     playAgainButton.classList.remove("hidden");
+    // }
+
     // Display win/loss/tie counts.
-    console.log(`Thank you for playing!
-Wins: ${winCount}
-Losses: ${lossCount}
-Ties: ${tieCount}`)
+    statisticsResultsText.id = "rps-statistics-result-text";
+    statisticsResultsText.innerHTML = `<span class="win-color">Wins: ${winCount}</span><br>
+    <span class="loss-color">Losses: ${lossCount}</span><br>
+    <span class="tie-color">Ties: ${tieCount}</span><br><br>
+    Thank you for playing!<br>`;
+    document.getElementById("rps-result").appendChild(statisticsResultsText);
+
+
+
+    let playAgainButton = document.createElement("img");
+    playAgainButton.src = "images/play-again.png";
+    playAgainButton.alt = "Play Again";
+    playAgainButton.className = "play-again-button";
+    playAgainButton.addEventListener("click", function () {
+        toggleChoicesVisibility();
+        roundResultsText.innerHTML = "";
+        gameResultsText.textContent = "";
+        statisticsResultsText.innerHTML = "";
+        playAgainButton.remove();
+    })
+    document.getElementById("rps-result").appendChild(playAgainButton);
+
+
+
+    winCount = 0;
+    lossCount = 0;
+    tieCount = 0;
+
+    toggleChoicesVisibility();
 }
 
-game();
+
+
+// game();
+
+let winCount = 0;
+let lossCount = 0;
+let tieCount = 0;
+
+let roundResultsText = document.getElementById("rps-round-result-text");
+let gameResultsText = document.getElementById("rps-game-result-text");
+let statisticsResultsText = document.createElement("p");
+
+let handler =
+    document.querySelectorAll(".rps-choice").forEach(item => {
+        item.addEventListener("click", function () { playRound(item.dataset.choice, computerPlay()); });
+    })

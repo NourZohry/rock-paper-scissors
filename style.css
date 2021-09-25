@@ -1,0 +1,80 @@
+body {
+    background-color: #ffeeee;
+}
+
+.title {
+    text-align: center;
+    font-style:italic;
+}
+
+.rps-choices {
+    text-align: center;
+    align-items: center;
+}
+
+.rps-choice {
+    height: 20vw;
+    width: 20vw;
+    max-height: 200px;
+    max-width: 200px;
+    object-fit: cover;
+    margin: 0px 5px 0px 5px;
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+    background-color: white;
+}
+
+@media only screen and (max-width: 800px) and (min-width: 501px) {
+    .rps-choice {
+        width: 25vw;
+        height: auto;
+    }
+    body {
+        background-color: #eeffff;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .rps-choices {
+        display: flex;
+        flex-direction: column;
+        grid-row-gap: 10px;
+    }
+    .rps-choice {
+        width: 40vw;
+        height: auto;
+    }
+}
+
+.rps-choice:hover {
+    cursor: pointer;
+}
+
+.rps-result {
+    text-align: center;
+}
+
+.win-color {
+    color: green;
+}
+
+.loss-color {
+    color: red;
+}
+
+.tie-color {
+    color: gray;
+}
+
+.hidden {
+    display: none;
+}
+
+.play-again-button {
+    max-width: 80vw;
+}
+
+.play-again-button:hover {
+    cursor: pointer;
+}
