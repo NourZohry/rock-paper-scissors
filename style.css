@@ -30,9 +30,6 @@ body {
         width: 25vw;
         height: auto;
     }
-    body {
-        background-color: #eeffff;
-    }
 }
 
 @media only screen and (max-width: 500px) {
